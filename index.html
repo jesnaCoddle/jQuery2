@@ -12,9 +12,12 @@
         }
     </style>
 </head>
+
 <body>
-    <h2>Form</h2>
+    <h3>Task 1</h3>
+    <h4>Form:</h4>
     <form id="userForm">
+
         <label for="firstName">Firstname:</label><br>
         <input type="text" id="firstName" name="firstName"><br>
         <span class="error" id="firstNameError"></span><br>
@@ -59,37 +62,63 @@
 
     <div id="formData"></div>
 
+    <h3>Task 2</h3>
+      <table id="table_data" style="border:1px solid black; border-collapse: collapse;" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
     <script>
+        // task1
         $(document).ready(function () {
             $("#userForm").submit(function (e) {
                 e.preventDefault();
+
+                $(".error").text("");
                 let isValid = true;
 
-                let firstName = $("#firstName").val();
-                if (firstName.trim() === "") {
+                let firstName = $("#firstName").val().trim();
+                if (firstName === "") {
                     $("#firstNameError").text("Firstname is required");
                     isValid = false;
                 }
 
-                let lastName = $("#lastName").val();
-                if (lastName.trim() === "") {
+                let lastName = $("#lastName").val().trim();
+                if (lastName === "") {
                     $("#lastNameError").text("Lastname is required");
                     isValid = false;
                 }
 
                 let dob = $("#dob").val();
-                if (dob.trim() === "") {
-                    $("#dobError").text("DOB is required");
+                let today = new Date().toISOString().split("T")[0];
+                if (dob == "") {
+                    $("#dobError").text("Date of Birth is required");
                     isValid = false;
                 }
+                else if (dob === "" || dob > today) {
+                    $("#dobError").text("Date of Birth cannot be in the future");
+                    isValid = false;
+                } else {
+                    $("#dobError").text("");
+                }
+
 
                 if (!$("input[name='gender']:checked").val()) {
                     $("#genderError").text("Gender is required");
                     isValid = false;
                 }
 
-                let email = $("#email").val();
-                if (email.trim() === "") {
+                let email = $("#email").val().trim();
+                if (email === "") {
                     $("#emailError").text("Email is required");
                     isValid = false;
                 } else if (!isValidEmail(email)) {
@@ -98,9 +127,17 @@
                 }
 
                 let phone = $("#phone").val();
-                if (phone.trim() === "") {
+                let phonePattern = /^[0-9]{10}$/;
+
+                if (phone === "") {
                     $("#phoneError").text("Phone number is required");
                     isValid = false;
+                }
+                else if (!phonePattern.test(phone)) {
+                    $("#phoneError").text("Phone number must be exactly 10 digits");
+                    isValid = false;
+                } else {
+                    $("#phoneError").text("");
                 }
 
                 let password = $("#password").val();
@@ -118,8 +155,8 @@
                     isValid = false;
                 }
 
-                let bio = $("#bio").val();
-                if (bio.trim() === "") {
+                let bio = $("#bio").val().trim();
+                if (bio === "") {
                     $("#bioError").text("Bio is required");
                     isValid = false;
                 }
@@ -137,10 +174,35 @@
                     $("#formData").html(formData);
                 }
             });
-        
+
+            function isValidEmail(email) {
+                const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                return pattern.test(email);
+            }
+
+            // task2
+            $.ajax({
+                url: "data.json",
+                dataType: "json",
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $("#table_data tbody").append(
+                            "<tr>" +
+                            "<td>" + item.id + "</td>" +
+                            "<td>" + item.name + "</td>" +
+                            "<td>" + item.age + "</td>" +
+                            "<td>" + item.gender + "</td>" +
+                            "<td>" + item.city + "</td>" +
+                            "</tr>"
+                        );
+                    });
+                },
+                error: function (error) {
+                    console.log("Error fetching JSON:", error);
+                }
+            });
         });
     </script>
-
 </body>
 
 </html>
