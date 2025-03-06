@@ -122,13 +122,13 @@
                     isValid = false;
                 }
 
-                let email = $("#email").val().trim();
-                if (email === "") {
-                    $("#emailError").text("Email is required");
-                    isValid = false;
-                } else if (!isValidEmail(email)) {
+                let email = $("#email").val();
+                let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!emailPattern.test(email)) {
                     $("#emailError").text("Invalid email format");
                     isValid = false;
+                } else {
+                    $("#emailError").text("");
                 }
 
                 let phone = $("#phone").val();
