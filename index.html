@@ -63,7 +63,7 @@
     <div id="formData"></div>
 
     <h3>Task 2</h3>
-      <table id="table_data" style="border:1px solid black; border-collapse: collapse;" border="1">
+    <table id="table_data" style="border:1px solid black; border-collapse: collapse;" border="1">
         <thead>
             <tr>
                 <th>ID</th>
@@ -100,8 +100,13 @@
 
                 let dob = $("#dob").val();
                 let today = new Date().toISOString().split("T")[0];
+                console.log(today);
                 if (dob == "") {
                     $("#dobError").text("Date of Birth is required");
+                    isValid = false;
+                }
+                else if (dob == today) {
+                    $("#dobError").text("Cannot enter today's date");
                     isValid = false;
                 }
                 else if (dob === "" || dob > today) {
