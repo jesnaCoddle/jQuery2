@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation using jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h2>Form</h2>
+    <form id="userForm">
+        <label for="firstName">Firstname:</label><br>
+        <input type="text" id="firstName" name="firstName"><br>
+        <span class="error" id="firstNameError"></span><br>
+
+        <label for="lastName">Lastname:</label><br>
+        <input type="text" id="lastName" name="lastName"><br>
+        <span class="error" id="lastNameError"></span><br>
+
+        <label for="dob">Date of Birth:</label><br>
+        <input type="date" id="dob" name="dob"><br>
+        <span class="error" id="dobError"></span><br>
+
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label><br>
+        <span class="error" id="genderError"></span><br>
+
+        <label for="email">Email ID:</label><br>
+        <input type="email" id="email" name="email"><br>
+        <span class="error" id="emailError"></span><br>
+
+        <label for="phone">Phone:</label><br>
+        <input type="tel" id="phone" name="phone"><br>
+        <span class="error" id="phoneError"></span><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <span class="error" id="passwordError"></span><br>
+
+        <label for="confirmPassword">Confirm Password:</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword"><br>
+        <span class="error" id="confirmPasswordError"></span><br>
+
+        <label for="bio">Bio:</label><br>
+        <textarea id="bio" name="bio"></textarea><br>
+        <span class="error" id="bioError"></span><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="formData"></div>
+
+    <script>
+        $(document).ready(function () {
+            $("#userForm").submit(function (e) {
+                e.preventDefault();
+                let isValid = true;
+
+                let firstName = $("#firstName").val();
+                if (firstName.trim() === "") {
+                    $("#firstNameError").text("Firstname is required");
+                    isValid = false;
+                }
+
+                let lastName = $("#lastName").val();
+                if (lastName.trim() === "") {
+                    $("#lastNameError").text("Lastname is required");
+                    isValid = false;
+                }
+
+                let dob = $("#dob").val();
+                if (dob.trim() === "") {
+                    $("#dobError").text("DOB is required");
+                    isValid = false;
+                }
+
+                if (!$("input[name='gender']:checked").val()) {
+                    $("#genderError").text("Gender is required");
+                    isValid = false;
+                }
+
+                let email = $("#email").val();
+                if (email.trim() === "") {
+                    $("#emailError").text("Email is required");
+                    isValid = false;
+                } else if (!isValidEmail(email)) {
+                    $("#emailError").text("Invalid email format");
+                    isValid = false;
+                }
+
+                let phone = $("#phone").val();
+                if (phone.trim() === "") {
+                    $("#phoneError").text("Phone number is required");
+                    isValid = false;
+                }
+
+                let password = $("#password").val();
+                if (password.trim() === "") {
+                    $("#passwordError").text("Password is required");
+                    isValid = false;
+                }
+
+                let confirmPassword = $("#confirmPassword").val();
+                if (confirmPassword.trim() === "") {
+                    $("#confirmPasswordError").text("Confirm password is required");
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    $("#confirmPasswordError").text("Passwords do not match");
+                    isValid = false;
+                }
+
+                let bio = $("#bio").val();
+                if (bio.trim() === "") {
+                    $("#bioError").text("Bio is required");
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    let formData = "<h3>Submitted Data:</h3>";
+                    formData += "<p>First Name: " + firstName + "</p>";
+                    formData += "<p>Last Name: " + lastName + "</p>";
+                    formData += "<p>DOB: " + dob + "</p>";
+                    formData += "<p>Gender: " + $("input[name='gender']:checked").val() + "</p>";
+                    formData += "<p>Email: " + email + "</p>";
+                    formData += "<p>Phone: " + phone + "</p>";
+                    formData += "<p>Bio: " + bio + "</p>";
+
+                    $("#formData").html(formData);
+                }
+            });
+        
+        });
+    </script>
+
+</body>
+
+</html>

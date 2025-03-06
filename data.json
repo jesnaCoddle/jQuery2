@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Jesna ",
+        "city": "Calicut",
+        "age":23,
+        "gender":"Female"
+    },
+    {
+        "id": 2,
+        "name": "Joel",
+        "city": "Kuwait",
+        "age":17,
+        "gender":"Male"
+    },
+    {
+        "id": 3,
+        "name": "Jane",
+        "city": "Mangalore",
+        "age":20,
+        "gender":"Female"
+    },
+    {
+        "id": 4,
+        "name": "Neha",
+        "city": "Singapore",
+        "age":22,
+        "gender":"Female"
+    },
+    {
+        "id": 3,
+        "name": "Olivia",
+        "city": "USA",
+        "age":21,
+        "gender":"Female"
+    }
+
+]
